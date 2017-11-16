@@ -1,7 +1,8 @@
-class HTTP::Server
-  class Context
-    property session = {} of String => String
+class HTTP::Server::Context
+  property! dwarf : Dwarf::Proxy
 
-    property! dwarf : Dwarf::Proxy?
+  def dwarf
+    @dwarf ||= Dwarf::Proxy.new(self)
+    @dwarf.not_nil!
   end
 end

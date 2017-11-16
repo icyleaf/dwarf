@@ -2,24 +2,26 @@ require "./strategies/*"
 
 module Dwarf
   module Strategies
-    @strategies = {} of String => Dwarf::Strategies
+    @@strategies = {} of String => Dwarf::Strategies::Base
 
-    # def add(name, strategy = nil)
-    #   strategy ||= Dwarf::Strategies::Base.new
+    def self.register(name : String, strategy : Dwarf::Strategies::Base)
+      return @@strategies[name] if @@strategies.has_key?(name) && @@strategies[name] == strategy
 
-    #   @strategies[name] = strategy
-    # end
+      @@strategies[name] = strategy
+    end
 
-    def [](name)
-      @strategies[name]
+    def self.[](name : String) : Dwarf::Strategies::Base
+      @@strategies[name]
+    end
+
+    def self.[]?(name : String) : Dwarf::Strategies::Base?
+      return nil unless @@strategies.has_key?(name)
+
+      @@strategies[name]
     end
 
     def self.clear!
-      @strategies.clear
-    end
-
-    def self.hello
-      "dddd"
+      @@strategies.clear
     end
   end
 end

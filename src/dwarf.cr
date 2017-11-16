@@ -1,5 +1,7 @@
 require "./dwarf/*"
 
 module Dwarf
-  class NotAuthenticated < Exception; end
+  class Error < Exception; end
+
+  class NotAuthenticated < Error; end
 end

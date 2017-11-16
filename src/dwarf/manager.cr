@@ -1,4 +1,5 @@
 require "http/server/handler"
+require "./ext/*"
 
 module Dwarf
   class Manager
@@ -7,13 +8,13 @@ module Dwarf
 
     property config : Dwarf::Config
 
-    def self.new(options = {} of String => String)
+    def self.new(options = {} of String => Dwarf::Config::Type)
       new(options) do |config|
         # do nothing
       end
     end
 
-    def initialize(options = {} of String => String, &block : -> Dwarf::Config)
+    def initialize(options = {} of String => Dwarf::Config::Type, &block : Dwarf::Config -> _)
       # default_strategies = options.delete("default_strategies")
       @config = Dwarf::Config.new(options)
 
@@ -22,9 +23,10 @@ module Dwarf
     end
 
     def call(context)
-      return next_call(context) if context.dwarf && context.dwarf.manager != self
+      context.dwarf = Proxy.new(context, self) unless context.dwarf?
 
-      context.dwarf = Proxy.new(context, self)
+      # return call_next(context) if (dwarf = context.dwarf) && dwarf.manager != self
+      call_next(context)
     end
   end
 end
