@@ -2,14 +2,6 @@ require "json"
 
 module Dwarf::Strategies
   abstract class Base
-    enum Result
-      Success
-      Failure
-      Redirect
-      Custom
-      None
-    end
-
     property result : Result
     property message : String?
 

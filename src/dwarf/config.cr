@@ -6,15 +6,15 @@ module Dwarf
 
     def initialize(options = {} of String => Type)
       @stores.merge!(options)
-      @stores["default_scope"] ||= Type.new("all")
+      @stores["default_scope"] ||= Type.new "all"
       @stores["scope_defaults"] ||= Type.new({} of String => Type)
       @stores["default_strategies"] ||= Type.new({} of String => Type)
       @stores["intercept_401"] = Type.new(true) unless @stores.has_key?("intercept_401")
-      @stores["silence_missing_strategies"] = Type.new(false)
+      @stores["silence_missing_strategies"] = Type.new false
     end
 
     def silence_missing_strategies!
-      @stores["silence_missing_strategies"] = Type.new(true)
+      @stores["silence_missing_strategies"] = Type.new true
     end
 
     def silence_missing_strategies?
@@ -26,16 +26,20 @@ module Dwarf
     end
 
     def []=(key, value)
-      @stores[key] = value
+      @stores[key] = Type.new value
     end
 
-    def default_strategies(strategies _strategies : Array(String), scope : String = "all")
-      _strategies = _strategies.each_with_object([] of Type) do |s, obj|
-        obj << Type.new(s)
+    def default_strategies(strategies : Array(String)? = nil, scope : String = "all") : Array(Type)
+      hash = @stores["default_strategies"].value.as(Hash(String, Type))
+      array = [] of Type
+      if __strategies = strategies
+        __strategies.each do |s|
+          array << Type.new(s)
+        end
+        hash[scope] = Type.new(array)
       end
 
-      hash = @stores["default_strategies"].value.as(Hash(String, Type))
-      hash[scope] = Type.new(_strategies)
+      hash[scope].value.as(Array) || array
     end
 
     def register_strategy(name : String, strategy : Dwarf::Strategies::Base)
@@ -76,7 +80,7 @@ module Dwarf
       end
 
       def {{ name.id }}=(value) : Type
-        @stores[{{ name.id.stringify }}] = Type.new(value)
+        @stores[{{ name.id.stringify }}] = Type.new value
       end
       {% end %}
     end

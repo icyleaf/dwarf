@@ -18,7 +18,7 @@ post "/authenticate" do |env|
 end
 
 spawn do
-  Kemal.config.add_handler dwarf_manager
+  Kemal.config.add_handler dwarf_manager.handler
   Kemal.run(8765)
 end
 

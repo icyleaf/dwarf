@@ -2,6 +2,14 @@ require "./strategies/*"
 
 module Dwarf
   module Strategies
+    enum Result
+      Success
+      Failure
+      Redirect
+      Custom
+      None
+    end
+
     @@strategies = {} of String => Dwarf::Strategies::Base
 
     def self.register(name : String, strategy : Dwarf::Strategies::Base)

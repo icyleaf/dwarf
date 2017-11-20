@@ -8,7 +8,7 @@ dwarf_manager = Dwarf::Manager.new do |config|
   config.default_strategies(strategies: ["password"])
 end
 
-server = HTTP::Server.new("127.0.0.1", 8765, [dwarf_manager]) do |context|
+server = HTTP::Server.new("127.0.0.1", 8765, [dwarf_manager.handler]) do |context|
   context.response.content_type = "text/plain"
 
   if context.request.method == "POST" && context.request.path == "/authenticate"

@@ -54,7 +54,7 @@ dwarf_manager = Dwarf::Manager.new do |config|
   config.default_strategies(strategies: ["password"])
 end
 
-# Then add it to framework's handlers
+# Then add `dwarf_manager.handler` to framework's handlers
 ```
 
 ## Installation
