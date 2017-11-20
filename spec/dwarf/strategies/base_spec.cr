@@ -1,5 +1,6 @@
 require "../../spec_helper"
 
-describe Dwarf::Strategies::Base do
-
+Spec2.describe Dwarf::Strategies::Base do
+  pending "TODO" do
+  end
 end

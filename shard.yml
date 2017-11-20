@@ -6,4 +6,12 @@ authors:
 
 crystal: 0.23.1
 
+development_dependencies:
+  spec2:
+    github: waterlink/spec2.cr
+  spec2-mocks:
+    github: waterlink/spec2-mocks.cr
+  kemal:
+    github: kemalcr/kemal
+
 license: MIT

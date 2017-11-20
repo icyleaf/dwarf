@@ -9,22 +9,22 @@ private class FooStrategy < Dwarf::Strategies::Base
   end
 end
 
-describe Dwarf::Strategies do
+Spec2.describe Dwarf::Strategies do
   it "should allow me to add a strategy with the required methods" do
-    Dwarf::Strategies.register("foo", FooStrategy.new).class.should eq FooStrategy
+    expect(Dwarf::Strategies.register("foo", FooStrategy.new)).to be_a FooStrategy
   end
 
   it "should allow me to clear the strategies" do
     Dwarf::Strategies.register("foo", FooStrategy.new)
 
-    Dwarf::Strategies["foo"]?.should_not be_nil
+    expect(Dwarf::Strategies["foo"]?).not_to be_nil
     Dwarf::Strategies.clear!
-    Dwarf::Strategies["foo"]?.should be_nil
+    expect(Dwarf::Strategies["foo"]?).to be_nil
   end
 
   it "should raise an exception if not found strategy" do
-    expect_raises KeyError do
+    expect do
       Dwarf::Strategies["bar"]
-    end
+    end.to raise_error KeyError
   end
 end
