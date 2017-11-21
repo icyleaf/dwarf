@@ -87,7 +87,7 @@ module Dwarf
         return user
       end
 
-      raise Dwarf::Error.new if raise_exception
+      raise Dwarf::NotAuthenticated.new(scope: scope) if raise_exception
     end
 
     # Manually set the user auth proxy
@@ -118,14 +118,29 @@ module Dwarf
     def logout
     end
 
-    # proxy methods through to the winning strategy
+    # Proxy through to the winning strategy to get the result.
     def result
       (strategy = winning_strategy) && strategy.result
     end
 
-    # Proxy through to the authentication strategy to find out the message that was generated.
+    # Proxy through to the winning strategy to get the message that was generated.
     def message
       (strategy = winning_strategy) && strategy.message
+    end
+
+    # Proxy through to the winning strategy to get the headers that was generated.
+    def headers
+      (strategy = winning_strategy) && strategy.headers
+    end
+
+    # Proxy through to the winning strategy to get the status that was generated.
+    def status
+      (strategy = winning_strategy) && strategy.status
+    end
+
+    # Proxy through to the winning strategy to get the custom_response that was generated.
+    def custom_response
+      (strategy = winning_strategy) && strategy.custom_response
     end
 
     # Perform authentication
@@ -177,7 +192,7 @@ module Dwarf
                                  elsif @config.silence_missing_strategies?
                                    nil
                                  else
-                                   raise Dwarf::Error.new "Invalid strategy #{name}"
+                                   raise Dwarf::KeyError.new "Invalid strategy #{name}", scope
                                  end
     end
   end

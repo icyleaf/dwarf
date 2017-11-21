@@ -84,11 +84,29 @@ module Dwarf::Strategies
     #   true
     # end
 
-    # def custom!(response)
-    #   halt!
-    #   @custom_response = response
-    #   @result = Result::Custom
-    # end
+    def headers(header = HTTP::Headers.new)
+      @headers.merge! header
+      @headers
+    end
+
+    # Causes the authentication to redirect.  An Dwarf::Error must be thrown to actually execute this redirect
+    def redirect!(url, message : String? = nil, content_type = "text/plain", permanent = true)
+      halt!
+      @status = permanent ? 301 : 302
+      headers["Location"] = url.dup
+      headers["Content-Type"] = content_type
+
+      @message = message || "You are being redirected to #{headers["Location"]}"
+      @result = Result::Redirect
+
+      headers["Location"]
+    end
+
+    def custom!(response)
+      halt!
+      @custom_response = response
+      @result = Result::Custom
+    end
 
     # The method that is called from above. This method calls the underlying authenticate! method
     protected def run!
