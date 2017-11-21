@@ -14,10 +14,10 @@ Inspired from the awesome Ruby's [warden][warden-link] gem.
 
 ## Supperted Frameworks
 
-- [x] [Crystal built-in HTTP Server][crystal-http-server-link] - [example](examples/http_server.cr)
+- [x] [Crystal built-in HTTP Server][crystal-http-server-link] - [examples/http_server.cr](examples/http_server.cr)
 - [x] [router.cr][router-cr-link] - example same as above.
-- [x] [Kemal][kemal-link] - [example](examples/kemal.cr)
-- [ ] [raze][raze-link]
+- [x] [Kemal][kemal-link] - [examples/kemal.cr](examples/kemal.cr)
+- [x] [raze][raze-link] - [examples/raze.cr](examples/raze.cr)
 - [ ] [Amber][amber-link]
 - [ ] [Lucky][lucky-link]
 
