@@ -17,9 +17,9 @@ Inspired from the awesome Ruby's [warden][warden-link] gem.
 - [x] [Crystal built-in HTTP Server][crystal-http-server-link] - [example](examples/http_server.cr)
 - [x] [router.cr][router-cr-link] - example same as above.
 - [x] [Kemal][kemal-link] - [example](examples/kemal.cr)
-- [ ] [raze](raze-link)
-- [ ] [Amber](amber-link)
-- [ ] [Lucky](lucky-link)
+- [ ] [raze][raze-link]
+- [ ] [Amber][amber-link]
+- [ ] [Lucky][lucky-link]
 
 ## Usage
 
