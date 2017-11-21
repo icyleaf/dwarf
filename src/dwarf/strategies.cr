@@ -28,8 +28,24 @@ module Dwarf
       @@strategies[name]
     end
 
+    def self.keys
+      @@strategies.keys
+    end
+
+    def self.values
+      @@strategies.values
+    end
+
     def self.clear!
       @@strategies.clear
+    end
+
+    macro register(name, &block)
+      class Dwarf::Strategies::{{ name.id.capitalize }}Strategy < Dwarf::Strategies::Base
+        {{block.body}}
+      end
+
+      Dwarf::Strategies.register({{ name.id.downcase.stringify}}, Dwarf::Strategies::{{ name.id.capitalize }}Strategy.new)
     end
   end
 end

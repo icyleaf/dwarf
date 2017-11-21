@@ -1,13 +1,30 @@
-require "./password_strategy"
+require "../src/dwarf" # Change to "dwarf" in production
 require "../src/dwarf/services/http_server" # Change to "dwarf/services/http_server" in production
 require "http/server"
 require "http/client"
 
+# 1. Create a strategy and register it!
+Dwarf::Strategies.register("password") do
+  def valid?
+    params["username"]? && params["password"]?
+  end
+
+  def authenticate!
+    if params["username"] == "dwarf" && params["password"] == "foobar"
+      user = JSON.parse({ "name" => params["username"] }.to_json)
+      success!(user)
+    else
+      fail!
+    end
+  end
+end
+
+# 2. Configure it
 dwarf_manager = Dwarf::Manager.new do |config|
-  config.register_strategy("password", PasswordStrategy.new)
   config.default_strategies(strategies: ["password"])
 end
 
+# 3. Append handler into http server
 server = HTTP::Server.new("127.0.0.1", 8765, [dwarf_manager.handler]) do |context|
   context.response.content_type = "text/plain"
 
