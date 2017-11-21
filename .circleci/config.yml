@@ -1,0 +1,20 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: crystallang/crystal
+    environment:
+      DOCS_PATH: "doc"
+      GIT_USER: "icyleaf"
+      GIT_EMAIL: "icyleaf.cn@gmail.com"
+      GIT_REPO: "git@github.com:icyleaf/dwarf.git"
+      GH_REF: "github.com/icyleaf/dwarf.cr"
+    branches:
+      ignore:
+        - gh-pages
+    working_directory: ~/dwarf
+    steps:
+      - checkout
+      - run:
+          name: "Specs"
+          command: crystal spec
