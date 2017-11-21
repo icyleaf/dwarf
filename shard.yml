@@ -11,10 +11,5 @@ development_dependencies:
     github: waterlink/spec2.cr
   spec2-mocks:
     github: waterlink/spec2-mocks.cr
-  # examples
-  kemal:
-    github: kemalcr/kemal
-  raze:
-    github: samueleaton/raze
 
 license: MIT

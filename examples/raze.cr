@@ -1,5 +1,5 @@
-require "../src/dwarf" # Change to "dwarf" in production
-require "../src/dwarf/services/http_server" # Change to "dwarf/services/http_server" in production
+require "dwarf"
+require "dwarf/services/http_server"
 require "http/client"
 require "raze"
 

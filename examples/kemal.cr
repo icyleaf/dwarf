@@ -1,5 +1,5 @@
-require "../src/dwarf" # Change to "dwarf" in production
-require "../src/dwarf/services/kemal" # Change to "dwarf/services/kemal" in production
+require "dwarf"
+require "dwarf/services/kemal"
 require "http/client"
 require "kemal"
 

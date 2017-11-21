@@ -18,7 +18,7 @@ Inspired from the awesome Ruby's [warden][warden-link] gem.
 - [x] [router.cr][router-cr-link] - example same as above.
 - [x] [Kemal][kemal-link] - [examples/kemal.cr](examples/kemal.cr)
 - [x] [raze][raze-link] - [examples/raze.cr](examples/raze.cr)
-- [ ] [Amber][amber-link]
+- [x] [Amber][amber-link] - [examples/amber.cr](examples/amber.cr)
 
 ## Ignored Frameworks
 
@@ -33,6 +33,8 @@ require "dwarf"
 # Crystal built-in http server
 # require "dwarf/services/http_server"
 # Kemal framework
+# require "dwarf/services/kemal"
+# Amber framework
 # require "dwarf/services/kemal"
 
 # Create a password strategy
