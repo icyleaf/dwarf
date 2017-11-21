@@ -19,7 +19,10 @@ Inspired from the awesome Ruby's [warden][warden-link] gem.
 - [x] [Kemal][kemal-link] - [examples/kemal.cr](examples/kemal.cr)
 - [x] [raze][raze-link] - [examples/raze.cr](examples/raze.cr)
 - [ ] [Amber][amber-link]
-- [ ] [Lucky][lucky-link]
+
+## Ignored Frameworks
+
+- [Lucky][lucky-link] - Can not support, [hard code][lucky-hard-code-link] handlers.
 
 ## Usage
 
@@ -87,3 +90,4 @@ dependencies:
 [raze-link]: https://github.com/samueleaton/raze
 [amber-link]: https://github.com/amberframework/amber
 [lucky-link]: https://github.com/luckyframework/web
+[lucky-hard-code-link]: https://github.com/luckyframework/web/blob/master/src/server.cr#L14
