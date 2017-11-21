@@ -92,4 +92,4 @@ dependencies:
 [raze-link]: https://github.com/samueleaton/raze
 [amber-link]: https://github.com/amberframework/amber
 [lucky-link]: https://github.com/luckyframework/web
-[lucky-hard-code-link]: https://github.com/luckyframework/web/blob/master/src/server.cr#L14
+[lucky-hard-code-link]: https://github.com/luckyframework/web/blob/f3ace765555ea75c29b40bc4cb4f8747b4ed82c9/src/server.cr#L14
