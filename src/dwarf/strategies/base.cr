@@ -15,56 +15,74 @@ module Dwarf::Strategies
       @result = Result::None
     end
 
-    def run!
-      @performed = true
-      authenticate!
-      self
-    end
+    abstract def valid? : String? | Bool
 
+    abstract def authenticate!(scope : String? = nil, strategy : String? = nil)
+
+    # A simple method to return from authenticate! if you want to ignore this strategy
+    def pass; end
+
+    # Returns if this strategy was already performed.
     def performed? : Bool
       @performed
     end
 
+    # Cause the processing of the strategies to stop and cascade no further
     def halt!
       @halted = true
     end
 
+    # Checks to see if a strategy was halted
     def halted?
       !!@halted
     end
 
+    # Returns true only if the result is a success and a user was assigned.
     def successful?
       @result == Result::Success && !user.nil?
     end
 
+    # Whenever you want to provide a user object as "authenticated" use the `success!` method.
+    # This will halt the strategy, and set the user in the appropriate scope.
+    # It is the "login" method
     def success!(user : JSON::Any, message : String? = nil)
-      success(user, message, halted: true)
-    end
-
-    def success(user : JSON::Any, message : String? = nil, halted = false)
-      @halted = halted
+      @halted = true
       @user = user
       @message = message
       @result = Result::Success
     end
 
+    # This causes the strategy to fail.
+    # It does not raise Dwarf::Error to drop the request out to the failure application
+    # You must throw an :warden symbol somewhere in the application to enforce this
+    # Halts the strategies so that this is the last strategy checked
     def fail!(message = "Failed to Login")
       fail(message, halted: true)
     end
 
+    # Causes the strategy to fail, but not halt.
+    # The strategies will cascade after this failure and warden will check the next strategy.
+    # The last strategy to fail will have it's message displayed.
     def fail(message = "Failed to Login", halted = false)
       @halted = halted
       @message = message
       @result = Result::Failure
     end
 
-    def errors
-      @context.dwarf.errors
-    end
+    # Access to the errors object.
+    # def errors
+    #   @context.dwarf.errors
+    # end
 
+    # Marks this strategy as not performed.
     def clear!
       @performed = false
     end
+
+    # Checks to see if a strategy should result in a permanent login
+    # def store?
+    #   true
+    # end
 
     # def custom!(response)
     #   halt!
@@ -72,10 +90,11 @@ module Dwarf::Strategies
     #   @result = Result::Custom
     # end
 
-    abstract def valid? : String? | Bool
-
-    # abstract def pass?
-
-    abstract def authenticate!(scope : String? = nil, strategy : String? = nil)
+    # The method that is called from above. This method calls the underlying authenticate! method
+    protected def run!
+      @performed = true
+      authenticate!
+      self
+    end
   end
 end
