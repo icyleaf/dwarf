@@ -16,5 +16,8 @@ jobs:
     steps:
       - checkout
       - run:
+          name: "Install dependencies"
+          command: crystal deps
+      - run:
           name: "Specs"
           command: crystal spec
