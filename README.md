@@ -28,7 +28,7 @@ require "dwarf"
 # Load the framework plugin appropriate to your project, require one at least.
 #
 # Crystal built-in http server
-# require "dwarf/services/http_server"
+# require "dwarf/services/common"
 # Kemal framework
 # require "dwarf/services/kemal"
 # Amber framework
