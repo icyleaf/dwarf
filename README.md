@@ -11,15 +11,15 @@ General HTTP Authentication Framework for Crystal, based on [HTTP Server Handler
 
 ## Supperted Frameworks
 
-- [x] [Crystal built-in HTTP Server](https://crystal-lang.org/docs/overview/http_server.html)
+- [x] [HTTP Server](https://crystal-lang.org/docs/overview/http_server.html)
 - [x] [router.cr](https://github.com/tbrand/router.cr)
-- [x] [Kemal](https://github.com/kemalcr/kemal)
+- [x] [kemal](https://github.com/kemalcr/kemal)
 - [x] [raze](https://github.com/samueleaton/raze)
-- [x] [Amber](https://github.com/amberframework/amber)
+- [x] [amber](https://github.com/amberframework/amber)
 
 ## Ignored Frameworks
 
-- [Lucky](https://github.com/luckyframework/web) - Can not support, [hard code](https://github.com/luckyframework/web/blob/f3ace765555ea75c29b40bc4cb4f8747b4ed82c9/src/server.cr#L14) handlers.
+- [lucky](https://github.com/luckyframework/web) - Can not support, [hard code](https://github.com/luckyframework/web/blob/f3ace765555ea75c29b40bc4cb4f8747b4ed82c9/src/server.cr#L14) handlers.
 
 ## Usage
 
@@ -74,7 +74,6 @@ dependencies:
 ## TODO
 
 - [ ] Stores(session)
-- [ ] Failures
 - [ ] Callbacks
 
 ## Contributing
