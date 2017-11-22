@@ -25,15 +25,21 @@ module Dwarf
       when Dwarf::Strategies::Result::Redirect
         call_unauthenticated(context, dwarf.headers, dwarf.message)
       when Dwarf::Strategies::Result::Custom
-        proxy.custom_response
+        # TODO: dwarf.custom_response
+        raise Dwarf::Error.new "Not completed, working on it."
       else
         raise Dwarf::Error.new "Not match result"
       end
     end
 
     private def call_unauthenticated(context, headers : HTTP::Headers? = nil, message : String? = nil)
-      context.response.status_code = 401
-      context.response.print message || "You are being redirected to "
+      context.response.status_code 401
+      if headers
+        context.response.headers.merge! headers
+        message = "You are being redirected to #{headers["Location"]}"
+      end
+
+      context.response.print message
     end
   end
 end

@@ -92,10 +92,14 @@ module Dwarf::Strategies
     # Causes the authentication to redirect.  An Dwarf::Error must be thrown to actually execute this redirect
     def redirect!(url, message : String? = nil, content_type = "text/plain", permanent = true)
       halt!
-      @status = permanent ? 301 : 302
-      headers["Location"] = url.dup
-      headers["Content-Type"] = content_type
 
+      headers["Content-Type"] = content_type
+      headers["Location"] = String.build do |io|
+        uri = url.dup
+        io << "?" << params.to_s unless params.empty?
+      end.to_s
+
+      @status = permanent ? 301 : 302
       @message = message || "You are being redirected to #{headers["Location"]}"
       @result = Result::Redirect
 

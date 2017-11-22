@@ -90,11 +90,51 @@ module Dwarf
       raise Dwarf::NotAuthenticated.new(scope: scope) if raise_exception
     end
 
+    # Same as `authenticated?`, but return with a block is given
+    def authenticated?(scope = retrieve_scope, &block)
+      result = authenticated?(scope)
+      yield if result
+      result
+    end
+
+    # Check to see if there is an authenticated user for the given scope.
+    # This brings the user from the session, but does not run strategies before doing so.
+    # If you want strategies to be run, please check authenticate?.
+    def authenticated?(scope = retrieve_scope)
+      !!user(scope)
+    end
+
+    # Same as `authenticated?`, but return with a block is given
+    def unauthenticated?(scope = retrieve_scope, &block)
+      result = unauthenticated?(scope)
+      yield if result
+      result
+    end
+
+    # Check to see if there is an authenticated user for the given scope.
+    # This brings the user from the session, but does not run strategies before doing so.
+    # If you want strategies to be run, please check authenticate?.
+    def unauthenticated?(scope = retrieve_scope)
+      !authenticated?(scope)
+    end
+
     # Manually set the user auth proxy
     # TODO: store it into session
     def set_user(user : JSON::Any, scope : String? = nil) : JSON::Any
       scope ||= retrieve_scope
       @users[scope] = user
+    end
+
+    # Same as `user`, but return the user force to be not nil
+    # ```
+    # # get default user(without scope)
+    # context.dwarf.user!
+    #
+    # # with scope
+    # context.dwarf.user("admin")!
+    # ```
+    def user!(scope : String? = nil) : JSON::Any
+      user(scope).not_nil!
     end
 
     # Provides access to the user json's object in a given scope for a request.
@@ -103,10 +143,14 @@ module Dwarf
     #
     # ```
     # # get default user(without scope)
-    # context.dwarf.user
+    # if user = context.dwarf.user
+    #   # do something
+    # end
     #
     # # with scope
-    # context.dwarf.user("admin")
+    # if user = context.dwarf.user("admin")
+    #   # do something
+    # end
     # ```
     def user(scope : String? = nil) : JSON::Any?
       scope ||= retrieve_scope
@@ -119,28 +163,38 @@ module Dwarf
     end
 
     # Proxy through to the winning strategy to get the result.
-    def result
-      (strategy = winning_strategy) && strategy.result
+    def result : Dwarf::Strategies::Result?
+      if strategy = winning_strategy
+        strategy.result
+      end
     end
 
     # Proxy through to the winning strategy to get the message that was generated.
-    def message
-      (strategy = winning_strategy) && strategy.message
+    def message : String?
+      if strategy = winning_strategy
+        strategy.message
+      end
     end
 
     # Proxy through to the winning strategy to get the headers that was generated.
-    def headers
-      (strategy = winning_strategy) && strategy.headers
+    def headers : HTTP::Headers?
+      if strategy = winning_strategy
+        strategy.headers
+      end
     end
 
     # Proxy through to the winning strategy to get the status that was generated.
-    def status
-      (strategy = winning_strategy) && strategy.status
+    def status : Int32?
+      if strategy = winning_strategy
+        strategy.status
+      end
     end
 
     # Proxy through to the winning strategy to get the custom_response that was generated.
     def custom_response
-      (strategy = winning_strategy) && strategy.custom_response
+      if strategy = winning_strategy
+        strategy.custom_response
+      end
     end
 
     # Perform authentication
@@ -192,7 +246,7 @@ module Dwarf
                                  elsif @config.silence_missing_strategies?
                                    nil
                                  else
-                                   raise Dwarf::KeyError.new "Invalid strategy #{name}", scope
+                                   raise Dwarf::KeyError.new "Invalid strategy `#{name}`", scope
                                  end
     end
   end

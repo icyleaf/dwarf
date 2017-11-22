@@ -6,7 +6,7 @@ module Dwarf::Strategies
       if parser = request.param_parser
         parser.body
       else
-        HTTP::Params.parse ""
+        HTTP::Params.new
       end
     end
   end

@@ -14,15 +14,14 @@ Dwarf::Strategies.register("password") do
       user = JSON.parse({ "name" => params["username"] }.to_json)
       success!(user)
     else
-      fail!
+      redirect!("/signup")
     end
   end
 end
 
 # 2. Configure it
 dwarf_manager = Dwarf::Manager.new do |config|
-  config.default_strategies(strategies: ["unkonwn", "password"])
-  config.silence_missing_strategies!
+  config.default_strategies(strategies: ["password"])
 end
 
 # 3. Append handler into http server
@@ -32,8 +31,7 @@ server = HTTP::Server.new("127.0.0.1", 8765, [dwarf_manager.handler]) do |contex
   if context.request.method == "POST" && context.request.path == "/authenticate"
     context.dwarf.authenticate!
 
-    if context.dwarf.authenticated?
-      user = context.dwarf.user!
+    if user = context.dwarf.user
       context.response.print "Logged in, hello #{user["name"]}!"
     else
       context.response.print "Auth request!"
@@ -50,5 +48,7 @@ end
 
 sleep 1
 
-r = HTTP::Client.post_form "http://127.0.0.1:8765/authenticate", "username=dwarf&password=foobar"
-puts r.body
+r = HTTP::Client.post_form "http://127.0.0.1:8765/authenticate?language=zh-ch", "username=dwarf&password=foobar1"
+pp r.headers
+pp r.status_code
+pp r.body
