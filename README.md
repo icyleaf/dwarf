@@ -7,10 +7,7 @@
 [![Build Status](https://img.shields.io/circleci/project/github/icyleaf/dwarf/master.svg?style=flat)](https://circleci.com/gh/icyleaf/dwarf)
 [![License](https://img.shields.io/github/license/icyleaf/dwarf.svg)](https://github.com/icyleaf/dwarf/blob/master/LICENSE)
 
-
-General HTTP Authentication Framework for Crystal, based on [HTTP Server Handler](https://crystal-lang.org/api/0.23.1/HTTP/Handler.html) means it compatibles with most of web frameworks which is could add http server handler(middlewave), such like kemal, router.cr, raze etc.
-
-Inspired from the awesome Ruby's [warden][warden-link] gem.
+General HTTP Authentication Framework for Crystal, based on [HTTP Server Handler](https://crystal-lang.org/api/0.23.1/HTTP/Handler.html) means it compatibles with most of web frameworks which is could add http server handler(middlewave), such like kemal, router.cr, raze etc. Inspired from the awesome Ruby's [warden][warden-link] gem.
 
 ## Supperted Frameworks
 
@@ -31,7 +28,7 @@ require "dwarf"
 # Load the framework plugin appropriate to your project, require one at least.
 #
 # Crystal built-in http server
-# require "dwarf/services/http_server"
+# require "dwarf/services/common"
 # Kemal framework
 # require "dwarf/services/kemal"
 # Amber framework
@@ -71,6 +68,12 @@ dependencies:
   dwarf:
     github: icyleaf/dwarf
 ```
+
+## TODO
+
+- [ ] Stores(session)
+- [ ] Failures
+- [ ] Callbacks
 
 ## Contributing
 

@@ -1,5 +1,5 @@
 require "dwarf"
-require "dwarf/services/http_server"
+require "dwarf/services/common"
 require "http/client"
 require "raze"
 

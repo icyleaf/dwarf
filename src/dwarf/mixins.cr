@@ -14,7 +14,7 @@ module Dwarf
     end
 
     @params_parsed = false
-    @params = HTTP::Params.parse ""
+    @params = HTTP::Params.new
 
     def params : HTTP::Params
       return @params if @params_parsed && @request == context.request
@@ -48,7 +48,7 @@ module Dwarf
     end
 
     private def parse_multipart(request) : HTTP::Params
-      params = HTTP::Params.parse ""
+      params = HTTP::Params.new
 
       HTTP::FormData.parse(request) do |part|
         next unless part
