@@ -13,8 +13,10 @@ Dwarf::Strategies.register("password") do
     if params["username"] == "dwarf" && params["password"] == "foobar"
       user = JSON.parse({ "name" => params["username"] }.to_json)
       success!(user)
+    elsif params["username"] == "icyleaf"
+      custom!("Your account had been locked.")
     else
-      redirect!("/signup")
+      redirect!("https://sdfsfd.sdfsdf.com/signup", "Not found email, now redirect to sign up page.", "text/html")
     end
   end
 end
@@ -46,9 +48,15 @@ spawn do
   server.listen
 end
 
+def request(url, body)
+  pp url
+  r = HTTP::Client.post_form url, body
+  pp r.headers
+  pp r.status_code
+  pp r.body
+end
+
 sleep 1
 
-r = HTTP::Client.post_form "http://127.0.0.1:8765/authenticate?language=zh-ch", "username=dwarf&password=foobar1"
-pp r.headers
-pp r.status_code
-pp r.body
+request "http://127.0.0.1:8765/authenticate?language=zh-ch", "username=dwarf&password=nopass"
+request "http://127.0.0.1:8765/authenticate?language=zh-ch", "username=icyleaf&password=foobar"

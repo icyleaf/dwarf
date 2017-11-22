@@ -23,23 +23,28 @@ module Dwarf
       scope ||= dwarf.config.default_scope.value.as(String)
       case dwarf.result
       when Dwarf::Strategies::Result::Redirect
-        call_unauthenticated(context, dwarf.headers, dwarf.message)
+        call_redirect(context, dwarf.headers, dwarf.message)
       when Dwarf::Strategies::Result::Custom
-        # TODO: dwarf.custom_response
-        raise Dwarf::Error.new "Not completed, working on it."
+        call_custom_response(context, dwarf.custom_response.not_nil!)
       else
         raise Dwarf::Error.new "Not match result"
       end
     end
 
-    private def call_unauthenticated(context, headers : HTTP::Headers? = nil, message : String? = nil)
-      context.response.status_code 401
-      if headers
-        context.response.headers.merge! headers
-        message = "You are being redirected to #{headers["Location"]}"
-      end
+    private def call_redirect(context, headers : HTTP::Headers? = nil, body : String? = nil)
+      body ||= "You are being redirected to #{headers.not_nil!["Location"]}"
+      perform_response(context, body, 401, headers)
+    end
 
-      context.response.print message
+    private def call_custom_response(context, response : Dwarf::Strategies::Response)
+      perform_response(context, response.body, response.status_code, response.headers)
+    end
+
+    private def perform_response(context, body : String, status_code : Int32 = 200, headers : HTTP::Headers? = nil)
+      context.response.status_code status_code
+      context.response.headers.merge! headers if headers
+      context.response.print body
+      context
     end
   end
 end

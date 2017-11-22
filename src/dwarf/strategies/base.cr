@@ -1,8 +1,11 @@
 require "json"
 
 module Dwarf::Strategies
+  record Response, status_code : Int32, headers : HTTP::Headers, body : String
+
   abstract class Base
     property result : Result
+    property! custom_response : Response
     property message : String?
 
     property! user : JSON::Any
@@ -96,6 +99,8 @@ module Dwarf::Strategies
       headers["Content-Type"] = content_type
       headers["Location"] = String.build do |io|
         uri = url.dup
+        uri = "/#{uri}" if !uri.starts_with?("http") && uri[0] != '/'
+        io << uri
         io << "?" << params.to_s unless params.empty?
       end.to_s
 
@@ -106,9 +111,9 @@ module Dwarf::Strategies
       headers["Location"]
     end
 
-    def custom!(response)
+    def custom!(body : String, status_code : Int32 = 200, headers = HTTP::Headers.new)
       halt!
-      @custom_response = response
+      @custom_response ||= Response.new status_code, headers, body
       @result = Result::Custom
     end
 
