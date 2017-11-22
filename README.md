@@ -7,19 +7,19 @@
 [![Build Status](https://img.shields.io/circleci/project/github/icyleaf/dwarf/master.svg?style=flat)](https://circleci.com/gh/icyleaf/dwarf)
 [![License](https://img.shields.io/github/license/icyleaf/dwarf.svg)](https://github.com/icyleaf/dwarf/blob/master/LICENSE)
 
-General HTTP Authentication Framework for Crystal, based on [HTTP Server Handler](https://crystal-lang.org/api/0.23.1/HTTP/Handler.html) means it compatibles with most of web frameworks which is could add http server handler(middlewave), such like kemal, router.cr, raze etc. Inspired from the awesome Ruby's [warden][warden-link] gem.
+General HTTP Authentication Framework for Crystal, based on [HTTP Server Handler](https://crystal-lang.org/api/0.23.1/HTTP/Handler.html) means it compatibles with most of web frameworks which is could add http server handler(middlewave), such like kemal, router.cr, raze etc. Inspired from the awesome Ruby's [warden](https://github.com/hassox/warden) gem.
 
 ## Supperted Frameworks
 
-- [x] [Crystal built-in HTTP Server][crystal-http-server-link] - [examples/http_server.cr](examples/http_server.cr)
-- [x] [router.cr][router-cr-link] - example same as above.
-- [x] [Kemal][kemal-link] - [examples/kemal.cr](examples/kemal.cr)
-- [x] [raze][raze-link] - [examples/raze.cr](examples/raze.cr)
-- [x] [Amber][amber-link] - [examples/amber.cr](examples/amber.cr)
+- [x] [Crystal built-in HTTP Server](https://crystal-lang.org/docs/overview/http_server.html)
+- [x] [router.cr](https://github.com/tbrand/router.cr)
+- [x] [Kemal](https://github.com/kemalcr/kemal)
+- [x] [raze](https://github.com/samueleaton/raze)
+- [x] [Amber](https://github.com/amberframework/amber)
 
 ## Ignored Frameworks
 
-- [Lucky][lucky-link] - Can not support, [hard code][lucky-hard-code-link] handlers.
+- [Lucky](https://github.com/luckyframework/web) - Can not support, [hard code](https://github.com/luckyframework/web/blob/f3ace765555ea75c29b40bc4cb4f8747b4ed82c9/src/server.cr#L14) handlers.
 
 ## Usage
 
@@ -27,7 +27,7 @@ General HTTP Authentication Framework for Crystal, based on [HTTP Server Handler
 require "dwarf"
 # Load the framework plugin appropriate to your project, require one at least.
 #
-# Crystal built-in http server
+# Common request, support built-in http server, raze
 # require "dwarf/services/common"
 # Kemal framework
 # require "dwarf/services/kemal"
@@ -59,6 +59,8 @@ end
 # Then add `dwarf_manager.handler` to framework's handlers
 ```
 
+Here has some [examples](https://github.com/icyleaf/dwarf/tree/master/examples) for usages.
+
 ## Installation
 
 Add this to your application's `shard.yml`:
@@ -86,13 +88,3 @@ dependencies:
 ## Contributors
 
 - [icyleaf](https://github.com/icyleaf) - creator, maintainer
-
-
-[warden-link]: https://github.com/hassox/warden
-[crystal-http-server-link]: https://crystal-lang.org/docs/overview/http_server.html
-[kemal-link]: github.com/kemalcr/kemal
-[router-cr-link]: https://github.com/tbrand/router.cr
-[raze-link]: https://github.com/samueleaton/raze
-[amber-link]: https://github.com/amberframework/amber
-[lucky-link]: https://github.com/luckyframework/web
-[lucky-hard-code-link]: https://github.com/luckyframework/web/blob/f3ace765555ea75c29b40bc4cb4f8747b4ed82c9/src/server.cr#L14
